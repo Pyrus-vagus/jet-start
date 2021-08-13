@@ -59,10 +59,12 @@ export default class BasicView extends JetView {
   }
   init() {
     console.log(this);
-    const table = this._componentData;
+    const tableData = this._componentData;
+    const table = this.$$("table");
     this.$$("table").parse(this._componentData);
+    if (this._name === "Countries") table.hideColumn("Icon");
     this.$$("button").attachEvent("onItemClick", function () {
-      table.add(
+      tableData.add(
         {
           Name: "New",
         },
