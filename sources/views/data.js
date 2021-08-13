@@ -41,7 +41,7 @@ export default class DataView extends JetView{
 			  editable:true,
 			  editaction: "dblclick",
 			  columns:[
-				 {id: "Name", header: "Status",  fillspace: true, editor: "text" },
+				 {id: "Name", header: "Status",  fillspace: true, editor: "text"},
 				 {id: "Icon", header: "", template:"<span class='webix_icon fas fa-#Icon# '></span>", editor: "richselect", collection:["cogs", "user"]},
 				{template: "{common.trashIcon()}"},
 				],

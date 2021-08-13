@@ -1,5 +1,7 @@
 import { JetView } from "webix-jet";
 import { contacts } from "models/contacts";
+import { countries } from "models/countries";
+import { statuses } from "models/statuses";
 
 export default class ContactsView extends JetView {
   config() {
@@ -8,8 +10,9 @@ export default class ContactsView extends JetView {
       id: "list",
       select: true,
       template: function (obj) {
-        return `${obj.Name}, ${obj.Email} from ${obj.Country}`;
+        return `${obj.Name}, ${obj.Email}, from ${countries.config.data[obj.Country-1].Name} is ${statuses.config.data[obj.Status-1].Name}`;
       },
+     // collection: countries,
     };
     const form = {
       type: "clean",

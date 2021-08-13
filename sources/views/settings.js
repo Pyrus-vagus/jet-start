@@ -4,7 +4,7 @@ export default class SettingsView extends JetView {
   config() {
     const segmented = {
       view: "segmented",
-      value:"En", inputWidth:250, options:[
+      value:"en", inputWidth:250, options:[
         { id:"en", value:"En" },
         { id:"ru", value:"Ru"},
         
