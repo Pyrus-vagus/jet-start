@@ -10,9 +10,10 @@ export default class ContactsView extends JetView {
       id: "list",
       select: true,
       template: function (obj) {
-        return `${obj.Name}, ${obj.Email}, from ${countries.config.data[obj.Country-1].Name} is ${statuses.config.data[obj.Status-1].Name}`;
+        return `${obj.Name}, ${obj.Email}, from ${
+          countries.getItem(obj.Country).Name
+        }`;
       },
-     // collection: countries,
     };
     const form = {
       type: "clean",
