@@ -7,7 +7,6 @@ export default class BasicView extends JetView {
     this._componentData = data;
   }
   config() {
-    console.log(this._name);
     const button = {
       view: "button",
       value: "Add New",
@@ -47,18 +46,12 @@ export default class BasicView extends JetView {
         },
       },
     };
-    const cell = {
-      header: this._name,
-      body: {
-        rows: [button, table],
-      },
-    };
+
     return {
       rows: [button, table],
     };
   }
   init() {
-    console.log(this);
     const tableData = this._componentData;
     const table = this.$$("table");
     this.$$("table").parse(this._componentData);
