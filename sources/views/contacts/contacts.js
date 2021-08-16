@@ -26,7 +26,6 @@ export default class ContactsView extends JetView {
   }
   init() {
     this.$$("list").parse(contacts);
-    this.$$("list").select(this.$$("list").getFirstId());
   }
   urlChange() {
     contacts.waitData.then(() => {
