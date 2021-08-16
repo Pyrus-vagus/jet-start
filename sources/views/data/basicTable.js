@@ -17,7 +17,6 @@ export default class BasicView extends JetView {
       editable: true,
       editaction: "dblclick",
       localId: "table",
-      id: this._name,
       columns: [
         {
           id: "Name",
@@ -37,11 +36,15 @@ export default class BasicView extends JetView {
             },
           },
         },
-        { template: "{common.trashIcon()}" },
+        {
+          template: "{common.trashIcon()}",
+          localId: this._name,
+          header: this._name,
+        },
       ],
       onClick: {
-        "wxi-trash": function (e, id) {
-          this.data.remove(id);
+        "wxi-trash": (e, id) => {
+          this._componentData.remove(id);
           return false;
         },
       },
