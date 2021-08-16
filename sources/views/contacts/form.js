@@ -29,12 +29,22 @@ export default class FormView extends JetView {
               label: "Status",
               options: statuses.config.data,
             },
-            { view: "button", value: "Submit" },
+            { view: "button", value: "Submit", localId: "button" },
           ],
         },
         {},
       ],
     };
+  }
+  init() {
+    this.$$("button").attachEvent("onItemClick", () => {
+      const form = this.$$("form");
+      if (form.isDirty()) {
+        const newData = form.getValues();
+        newData.id ? contacts.updateItem(newData.id, newData) : "";
+        this.webix.message("Information is updated!");
+      }
+    });
   }
   urlChange() {
     const id = this.getParam("id", true);
