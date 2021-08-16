@@ -38,8 +38,6 @@ export default class BasicView extends JetView {
         },
         {
           template: "{common.trashIcon()}",
-          localId: this._name,
-          header: this._name,
         },
       ],
       onClick: {
