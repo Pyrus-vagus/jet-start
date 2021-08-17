@@ -5,19 +5,20 @@ import { countries } from "../../models/countries";
 import { statuses } from "../../models/statuses";
 export default class ContactsView extends JetView {
   config() {
+    const _ = this.app.getService("locale")._;
     const button = {
       view: "button",
       localId: "button",
-      value: "Add New",
+      value: _("Add New"),
     };
     const list = {
       view: "list",
       localId: "list",
       select: true,
       template: function (obj) {
-        return `${obj.Name}, ${obj.Email}, from ${
+        return `${obj.Name}, ${obj.Email}, ${_("from")} ${_(
           countries.getItem(obj.Country).Name
-        } <div class = 'webix_icon fas fa-times'></div>`;
+        )} <div class = 'webix_icon fas fa-times'></div>`;
       },
       on: {
         onAfterSelect: (id) => {
@@ -34,7 +35,10 @@ export default class ContactsView extends JetView {
       },
     };
     return {
-      cols: [{ rows: [list, button] }, { $subview: "contacts.form" }],
+      cols: [
+        { rows: [list, button], gravity: 2 },
+        { $subview: "contacts.form" },
+      ],
       css: "webix_shadow_medium",
     };
   }

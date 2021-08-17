@@ -6,20 +6,21 @@ import { statuses } from "../../models/statuses";
 
 export default class FormView extends JetView {
   config() {
+    const _ = this.app.getService("locale")._;
     return {
       rows: [
         {
           view: "form",
           localId: "form",
           elements: [
-            { type: "section", template: "Edit Contacts" },
-            { view: "text", name: "Name", value: "", label: "Name" },
-            { view: "text", name: "Email", value: "", label: "Email" },
+            { type: "section", template: _("Edit Contacts") },
+            { view: "text", name: "Name", value: "", label: _("Name") },
+            { view: "text", name: "Email", value: "", label: _("Email") },
             {
               view: "combo",
               name: "Country",
               value: "1",
-              label: "Country",
+              label: _("Country"),
               options: {
                 view: "suggest",
                 filter: function (item, value) {
@@ -33,7 +34,9 @@ export default class FormView extends JetView {
                 },
                 body: {
                   data: countries,
-                  template: "#Name#",
+                  template: (obj) => {
+                    return _(obj.Name);
+                  },
                 },
               },
             },
@@ -55,11 +58,13 @@ export default class FormView extends JetView {
                 },
                 body: {
                   data: statuses,
-                  template: "#Name#",
+                  template: (obj) => {
+                    return _(obj.Name);
+                  },
                 },
               },
             },
-            { view: "button", value: "Submit", localId: "button" },
+            { view: "button", value: _("Submit"), localId: "button" },
           ],
         },
         {},
