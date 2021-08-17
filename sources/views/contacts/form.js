@@ -18,16 +18,46 @@ export default class FormView extends JetView {
             {
               view: "combo",
               name: "Country",
-              value: "",
+              value: "1",
               label: "Country",
-              options: countries.config.data,
+              options: {
+                view: "suggest",
+                filter: function (item, value) {
+                  if (
+                    item.Name.toString()
+                      .toLowerCase()
+                      .indexOf(value.toLowerCase()) === 0
+                  )
+                    return true;
+                  return false;
+                },
+                body: {
+                  data: countries,
+                  template: "#Name#",
+                },
+              },
             },
             {
               view: "combo",
               name: "Status",
               value: "",
               label: "Status",
-              options: statuses.config.data,
+              options: {
+                view: "suggest",
+                filter: function (item, value) {
+                  if (
+                    item.Name.toString()
+                      .toLowerCase()
+                      .indexOf(value.toLowerCase()) === 0
+                  )
+                    return true;
+                  return false;
+                },
+                body: {
+                  data: statuses,
+                  template: "#Name#",
+                },
+              },
             },
             { view: "button", value: "Submit", localId: "button" },
           ],
@@ -47,7 +77,7 @@ export default class FormView extends JetView {
     });
   }
   urlChange() {
-    const id = this.getParam("id", true);
+    const id = this.getParam("id", true) || contacts.getFirstId();
     if (id && contacts.exists(id)) {
       const values = contacts.getItem(id);
       this.$$("form").setValues(values);
