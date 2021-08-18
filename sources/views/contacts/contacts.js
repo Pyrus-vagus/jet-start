@@ -28,8 +28,6 @@ export default class ContactsView extends JetView {
       onClick: {
         "fa-times": (e, id) => {
           contacts.remove(id);
-          const item = contacts.getFirstId();
-          this.$$("list").select(item);
           return false;
         },
       },
@@ -43,27 +41,31 @@ export default class ContactsView extends JetView {
     };
   }
   init() {
-    this.$$("list").parse(contacts);
-    this.$$("button").attachEvent("onItemClick", () => {
-      const nC = countries.data.count();
-      const country = Math.floor(Math.random() * (nC - 1 + 1)) + 1;
-      const nS = statuses.data.count();
-      const status = Math.floor(Math.random() * (nS - 1 + 1)) + 1;
-      contacts.add({
-        Name: "New",
-        Email: "new@email.com",
-        Country: country,
-        Status: status,
+    contacts.waitData.then(() => {
+      this.$$("list").parse(contacts);
+      this.$$("button").attachEvent("onItemClick", () => {
+        const nC = countries.data.count();
+        const country = Math.floor(Math.random() * (nC - 1 + 1)) + 1;
+        const nS = statuses.data.count();
+        const status = Math.floor(Math.random() * (nS - 1 + 1)) + 1;
+        const id = contacts.add({
+          Name: "New",
+          Email: "new@email.com",
+          Country: country,
+          Status: status,
+        });
+        this.$$("list").select(id);
+        this.$$("list").showItem(id);
       });
     });
   }
-  urlChange() {
-    contacts.waitData.then(() => {
-      const id = this.getParam("id") || contacts.getFirstId();
-      if (contacts.exist(id)) {
-        this.$$("list").select(id);
-        this.$$("list").showItem(id);
-      }
-    });
-  }
+  // urlChange() {
+  //   contacts.waitData.then(() => {
+  //     const id = this.getParam("id") || contacts.getFirstId();
+  //     if (id) {
+  //       this.$$("list").select(id);
+  //       this.$$("list").showItem(id);
+  //     }
+  //   });
+  // }
 }
