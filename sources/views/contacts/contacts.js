@@ -28,6 +28,7 @@ export default class ContactsView extends JetView {
       onClick: {
         "fa-times": (e, id) => {
           contacts.remove(id);
+          this.setParam("id", "", true);
           return false;
         },
       },
@@ -42,7 +43,8 @@ export default class ContactsView extends JetView {
   }
   init() {
     contacts.waitData.then(() => {
-      this.$$("list").parse(contacts);
+      const list = this.$$("list");
+      list.parse(contacts);
       this.$$("button").attachEvent("onItemClick", () => {
         const nC = countries.data.count();
         const country = Math.floor(Math.random() * (nC - 1 + 1)) + 1;
@@ -54,18 +56,22 @@ export default class ContactsView extends JetView {
           Country: country,
           Status: status,
         });
-        this.$$("list").select(id);
-        this.$$("list").showItem(id);
+        this.select(id);
       });
     });
   }
-  // urlChange() {
-  //   contacts.waitData.then(() => {
-  //     const id = this.getParam("id") || contacts.getFirstId();
-  //     if (id) {
-  //       this.$$("list").select(id);
-  //       this.$$("list").showItem(id);
-  //     }
-  //   });
-  // }
+  urlChange() {
+    contacts.waitData.then(() => {
+      const id = this.getParam("id");
+      if (!contacts.exists(id)) {
+        this.select(contacts.getFirstId());
+      } else if (id && contacts.exists(id)) {
+        this.select(id);
+      }
+    });
+  }
+  select(id) {
+    this.$$("list").select(id);
+    this.$$("list").showItem(id);
+  }
 }

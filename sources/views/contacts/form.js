@@ -86,6 +86,8 @@ export default class FormView extends JetView {
     if (id && contacts.exists(id)) {
       const values = contacts.getItem(id);
       this.$$("form").setValues(values);
+    } else {
+      this.$$("form").clear();
     }
   }
 }
