@@ -16,9 +16,10 @@ export default class ContactsView extends JetView {
       localId: "list",
       select: true,
       template: function (obj) {
-        return `${obj.Name}, ${obj.Email}, ${_("from")} ${_(
-          countries.getItem(obj.Country).Name
-        )} <div class = 'webix_icon fas fa-times'></div>`;
+        const country = countries.getItem(obj.Country);
+        return `${obj.Name}, ${obj.Email}, ${_("from")} ${
+          country ? country.Name : "ghost country"
+        } <div class = 'webix_icon fas fa-times'></div>`;
       },
       on: {
         onAfterSelect: (id) => {

@@ -34,9 +34,7 @@ export default class FormView extends JetView {
                 },
                 body: {
                   data: countries,
-                  template: (obj) => {
-                    return _(obj.Name);
-                  },
+                  template: (o) => o.Name,
                 },
               },
             },
@@ -58,9 +56,7 @@ export default class FormView extends JetView {
                 },
                 body: {
                   data: statuses,
-                  template: (obj) => {
-                    return _(obj.Name);
-                  },
+                  template: (o) => o.Name,
                 },
               },
             },
@@ -82,12 +78,14 @@ export default class FormView extends JetView {
     });
   }
   urlChange() {
-    const id = this.getParam("id", true) || contacts.getFirstId();
-    if (id && contacts.exists(id)) {
-      const values = contacts.getItem(id);
-      this.$$("form").setValues(values);
-    } else {
-      this.$$("form").clear();
-    }
+    contacts.waitData.then(() => {
+      const id = this.getParam("id", true) || contacts.getFirstId();
+      if (id && contacts.exists(id)) {
+        const values = contacts.getItem(id);
+        this.$$("form").setValues(values);
+      } else {
+        this.$$("form").clear();
+      }
+    });
   }
 }
