@@ -55,7 +55,7 @@ export default class ContactsView extends JetView {
       const country = Math.floor(Math.random() * (nC - 1 + 1)) + 1;
       const nS = statuses.data.count();
       const status = Math.floor(Math.random() * (nS - 1 + 1)) + 1;
-      const id = contacts
+      contacts
         .waitSave(() => {
           contacts.add({
             Name: "New",
