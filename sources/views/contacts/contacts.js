@@ -27,8 +27,12 @@ export default class ContactsView extends JetView {
       },
       onClick: {
         "fa-times": (e, id) => {
+          const selected = this.$$("list").getSelectedId().toString();
+          if (selected === id) {
+            this.getRoot().queryView({ view: "form" }).clear();
+            this.setParam("id", "", true);
+          }
           contacts.remove(id);
-          this.setParam("id", "", true);
           return false;
         },
       },
