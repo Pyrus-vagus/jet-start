@@ -7,9 +7,10 @@ export default class BasicView extends JetView {
     this._componentData = data;
   }
   config() {
+    const _ = this.app.getService("locale")._;
     const button = {
       view: "button",
-      value: "Add New",
+      value: _("Add New"),
       localId: "button",
     };
     const table = {
@@ -20,7 +21,8 @@ export default class BasicView extends JetView {
       columns: [
         {
           id: "Name",
-          header: this._name,
+          header: _(this._name),
+          template: (o) => _(o.Name),
           fillspace: true,
           editor: "text",
         },
@@ -38,8 +40,6 @@ export default class BasicView extends JetView {
         },
         {
           template: "{common.trashIcon()}",
-          localId: this._name,
-          header: this._name,
         },
       ],
       onClick: {

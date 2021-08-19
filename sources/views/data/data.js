@@ -5,16 +5,17 @@ import BasicView from "./basicTable";
 
 export default class DataView extends JetView {
   config() {
+    const _ = this.app.getService("locale")._;
     const multiview = {
       type: "clean",
       view: "tabview",
       cells: [
         {
-          header: "Countries",
+          header: _("Countries"),
           body: new BasicView(this.app, "Countries", countries),
         },
         {
-          header: "Statuses",
+          header: _("Statuses"),
           body: new BasicView(this.app, "Statuses", statuses),
         },
       ],
