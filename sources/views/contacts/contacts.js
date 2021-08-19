@@ -47,21 +47,20 @@ export default class ContactsView extends JetView {
   }
   init() {
     contacts.waitData.then(() => {
-      const list = this.$$("list");
-      list.parse(contacts);
-      this.$$("button").attachEvent("onItemClick", () => {
-        const nC = countries.data.count();
-        const country = Math.floor(Math.random() * (nC - 1 + 1)) + 1;
-        const nS = statuses.data.count();
-        const status = Math.floor(Math.random() * (nS - 1 + 1)) + 1;
-        const id = contacts.add({
-          Name: "New",
-          Email: "new@email.com",
-          Country: country,
-          Status: status,
-        });
-        this.select(id);
+      this.$$("list").parse(contacts);
+    });
+    this.$$("button").attachEvent("onItemClick", () => {
+      const nC = countries.data.count();
+      const country = Math.floor(Math.random() * (nC - 1 + 1)) + 1;
+      const nS = statuses.data.count();
+      const status = Math.floor(Math.random() * (nS - 1 + 1)) + 1;
+      const id = contacts.add({
+        Name: "New",
+        Email: "new@email.com",
+        Country: country,
+        Status: status,
       });
+      this.select(id);
     });
   }
   urlChange() {
