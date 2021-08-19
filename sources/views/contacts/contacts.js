@@ -55,13 +55,16 @@ export default class ContactsView extends JetView {
       const country = Math.floor(Math.random() * (nC - 1 + 1)) + 1;
       const nS = statuses.data.count();
       const status = Math.floor(Math.random() * (nS - 1 + 1)) + 1;
-      const id = contacts.add({
-        Name: "New",
-        Email: "new@email.com",
-        Country: country,
-        Status: status,
-      });
-      this.select(id);
+      const id = contacts
+        .waitSave(() => {
+          contacts.add({
+            Name: "New",
+            Email: "new@email.com",
+            Country: country,
+            Status: status,
+          });
+        })
+        .then((res) => this.select(res.id));
     });
   }
   urlChange() {
