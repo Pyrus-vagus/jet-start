@@ -34,9 +34,7 @@ export default class FormView extends JetView {
                 },
                 body: {
                   data: countries,
-                  template: (obj) => {
-                    return _(obj.Name);
-                  },
+                  template: (o) => o.Name,
                 },
               },
             },
@@ -58,9 +56,7 @@ export default class FormView extends JetView {
                 },
                 body: {
                   data: statuses,
-                  template: (obj) => {
-                    return _(obj.Name);
-                  },
+                  template: (o) => o.Name,
                 },
               },
             },
@@ -76,18 +72,24 @@ export default class FormView extends JetView {
       const form = this.$$("form");
       if (form.isDirty()) {
         const newData = form.getValues();
-        if (newData.id) contacts.updateItem(newData.id, newData);
-        this.webix.message("Information is updated!");
+        if (newData.id) {
+          contacts.waitSave(()=>
+            contacts.updateItem(newData.id, newData)).
+            then(()=>
+              this.webix.message("Information is updated!"));
+        }
       }
     });
   }
   urlChange() {
-    const id = this.getParam("id", true) || contacts.getFirstId();
-    if (id && contacts.exists(id)) {
-      const values = contacts.getItem(id);
-      this.$$("form").setValues(values);
-    } else {
-      this.$$("form").clear();
-    }
+    contacts.waitData.then(() => {
+      const id = this.getParam("id", true) || contacts.getFirstId();
+      if (id && contacts.exists(id)) {
+        const values = contacts.getItem(id);
+        this.$$("form").setValues(values);
+      } else {
+        this.$$("form").clear();
+      }
+    });
   }
 }

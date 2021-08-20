@@ -16,9 +16,10 @@ export default class ContactsView extends JetView {
       localId: "list",
       select: true,
       template: function (obj) {
-        return `${obj.Name}, ${obj.Email}, ${_("from")} ${_(
-          countries.getItem(obj.Country).Name
-        )} <div class = 'webix_icon fas fa-times'></div>`;
+        const country = countries.getItem(obj.Country);
+        return `${obj.Name}, ${obj.Email}, ${_("from")} ${
+          country ? country.Name : "ghost country"
+        } <div class = 'webix_icon fas fa-times'></div>`;
       },
       on: {
         onAfterSelect: (id) => {
@@ -49,18 +50,22 @@ export default class ContactsView extends JetView {
     contacts.waitData.then(() => {
       this.$$("list").parse(contacts);
     });
+    countries.waitData.then(()=>this.$$("list").refresh())
     this.$$("button").attachEvent("onItemClick", () => {
       const nC = countries.data.count();
       const country = Math.floor(Math.random() * (nC - 1 + 1)) + 1;
       const nS = statuses.data.count();
       const status = Math.floor(Math.random() * (nS - 1 + 1)) + 1;
-      const id = contacts.add({
-        Name: "New",
-        Email: "new@email.com",
-        Country: country,
-        Status: status,
-      });
-      this.select(id);
+      contacts
+        .waitSave(() => {
+          contacts.add({
+            Name: "New",
+            Email: "new@email.com",
+            Country: country,
+            Status: status,
+          });
+        })
+        .then((res) => this.select(res.id));
     });
   }
   urlChange() {

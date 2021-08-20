@@ -22,7 +22,7 @@ export default class BasicView extends JetView {
         {
           id: "Name",
           header: _(this._name),
-          template: (o) => _(o.Name),
+          template: (o) => o.Name,
           fillspace: true,
           editor: "text",
         },
@@ -55,8 +55,10 @@ export default class BasicView extends JetView {
     };
   }
   init() {
-    this.$$("table").parse(this._componentData);
-    if (this._name === "Countries") this.$$("table").hideColumn("Icon");
+    this._componentData.waitData.then(() => {
+      this.$$("table").parse(this._componentData);
+      if (this._name === "Countries") this.$$("table").hideColumn("Icon");
+    });
     this.$$("button").attachEvent("onItemClick", () => {
       this._componentData.add(
         {
