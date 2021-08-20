@@ -50,6 +50,7 @@ export default class ContactsView extends JetView {
     contacts.waitData.then(() => {
       this.$$("list").parse(contacts);
     });
+    countries.waitData.then(()=>this.$$("list").refresh())
     this.$$("button").attachEvent("onItemClick", () => {
       const nC = countries.data.count();
       const country = Math.floor(Math.random() * (nC - 1 + 1)) + 1;
