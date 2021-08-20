@@ -73,9 +73,11 @@ export default class FormView extends JetView {
       if (form.isDirty()) {
         const newData = form.getValues();
         if (newData.id) {
-          contacts.updateItem(newData.id, newData);
+          contacts.waitSave(()=>
+            contacts.updateItem(newData.id, newData)).
+            then(()=>
+              this.webix.message("Information is updated!"));
         }
-        this.webix.message("Information is updated!");
       }
     });
   }
